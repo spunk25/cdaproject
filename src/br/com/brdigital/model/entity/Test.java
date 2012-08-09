@@ -2,17 +2,13 @@ package br.com.brdigital.model.entity;
 
 import java.sql.SQLException;
 
-import br.com.brdigital.control.dao.GenericaDao;
+import br.com.brdigital.control.dao.*;
 
 public class Test {
 	public static void main(String arg[]) {
-		GenericaDao dao = new GenericaDao();
-		try {
-			dao.getConnection();
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Beneficiado ben = new Beneficiado("Bruno Ramon", TipoSexo.M, "005");
+		BeneficiadoDao dao = new BeneficiadoDao();
+		dao.inserir(ben);
+
 	}
 }
