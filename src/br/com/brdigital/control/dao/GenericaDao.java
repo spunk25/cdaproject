@@ -25,7 +25,7 @@ public class GenericaDao {
 		} catch (ClassNotFoundException e) {
 			// TODO: handle exception
 			e.printStackTrace();
-		}
+		} 
 		return conn;
 	}
 	

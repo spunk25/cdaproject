@@ -1,8 +1,8 @@
 package br.com.brdigital.model.entity;
 
 public enum TipoSexo {
-	 M ("Masculino")
-	,F ("Feminino");
+	 Masculino ("Masculino")
+	,Feminino ("Feminino");
 	
 	private String sexo;
 
