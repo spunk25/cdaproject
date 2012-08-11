@@ -10,6 +10,35 @@ public class Beneficiado {
 	private String cpf;
 	private String profissao;
 	
+	private Endereco endereco;
+	
+	private Contato contato;
+	
+	/**
+	 * @param idBeneficiado
+	 * @param nome
+	 * @param apelido
+	 * @param genero
+	 * @param conjugue
+	 * @param rg
+	 * @param cpf
+	 * @param profissao
+	 * @param endereco
+	 */
+	public Beneficiado(int idBeneficiado, String nome, String apelido,
+			TipoSexo genero, String conjugue, String rg, String cpf,
+			String profissao, Endereco endereco) {
+		super();
+		this.idBeneficiado = idBeneficiado;
+		this.nome = nome;
+		this.apelido = apelido;
+		this.genero = genero;
+		this.conjugue = conjugue;
+		this.rg = rg;
+		this.cpf = cpf;
+		this.profissao = profissao;
+		this.endereco = endereco;
+	}
 	/**
 	 * @param idBeneficiado
 	 * @param nome
@@ -86,6 +115,30 @@ public class Beneficiado {
 	 */
 	public Beneficiado() {
 		super();
+	}
+	/**
+	 * @return the contato
+	 */
+	public Contato getContato() {
+		return contato;
+	}
+	/**
+	 * @param contato the contato to set
+	 */
+	public void setContato(Contato contato) {
+		this.contato = contato;
+	}
+	/**
+	 * @return the endereco
+	 */
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	/**
+	 * @param endereco the endereco to set
+	 */
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 	/**
 	 * @return the idBeneficiado

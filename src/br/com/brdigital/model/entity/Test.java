@@ -4,7 +4,10 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import br.com.brdigital.control.dao.*;
+import br.com.brdigital.control.general.TrataEntrada;
 
 public class Test {
 	public static void main(String arg[]) {

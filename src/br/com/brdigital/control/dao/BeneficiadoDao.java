@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.PreparedStatement;
 
 import br.com.brdigital.model.entity.Beneficiado;
@@ -28,9 +30,10 @@ public class BeneficiadoDao {
 		dao = new GenericaDao();		
 	}
 	
-	public void inserir(Beneficiado ben) {
+	public long inserir(Beneficiado ben) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
+		long idCriado;
 		
 		try {
 			conn = dao.getConnection();
@@ -49,7 +52,9 @@ public class BeneficiadoDao {
 			e.printStackTrace();
 		} finally {
 			dao.releaseAll(stmt, conn);
+			idCriado = stmt.getLastInsertID();
 		}
+		return idCriado;
 	}
 	
 	public void atualizar(Beneficiado ben) {
