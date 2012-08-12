@@ -73,7 +73,6 @@ public class Beneficiado {
 	public Beneficiado(String nome, String apelido,
 			TipoSexo genero, String conjugue, String cpf) {
 		super();
-		this.idBeneficiado = idBeneficiado;
 		this.nome = nome;
 		this.apelido = apelido;
 		this.genero = genero;
@@ -90,7 +89,6 @@ public class Beneficiado {
 	public Beneficiado(String nome, TipoSexo genero,
 			String conjugue, String cpf) {
 		super();
-		this.idBeneficiado = idBeneficiado;
 		this.nome = nome;
 		this.genero = genero;
 		this.conjugue = conjugue;
@@ -105,7 +103,6 @@ public class Beneficiado {
 	public Beneficiado(String nome, TipoSexo genero,
 			String cpf) {
 		super();
-		this.idBeneficiado = idBeneficiado;
 		this.nome = nome;
 		this.genero = genero;
 		this.cpf = cpf;
@@ -325,6 +322,10 @@ public class Beneficiado {
 		builder.append(cpf);
 		builder.append(", profissao=");
 		builder.append(profissao);
+		builder.append(", endereco=");
+		builder.append(endereco);
+		builder.append(", contato=");
+		builder.append(contato);
 		builder.append("]");
 		return builder.toString();
 	}	

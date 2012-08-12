@@ -78,6 +78,5 @@ public class GenericaDao {
 	
 	public void setStrConnection(String server,String port,String database) {
 		this.strConnection = "jdbc:mysql://"+server+":"+port+"/"+database;
-		System.out.println("Trying connection with: "+this.strConnection);
 	}
 }

@@ -6,6 +6,8 @@ package br.com.brdigital.control.dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -13,6 +15,8 @@ import javax.swing.JOptionPane;
 import com.mysql.jdbc.PreparedStatement;
 
 import br.com.brdigital.model.entity.Beneficiado;
+import br.com.brdigital.model.entity.Contato;
+import br.com.brdigital.model.entity.Endereco;
 import br.com.brdigital.model.entity.TipoSexo;
 
 /**
@@ -89,7 +93,8 @@ public class BeneficiadoDao {
 		try {
 			conn = dao.getConnection();
 			int index = 0;
-			stmt = (PreparedStatement) conn.prepareStatement("DELETE FROM Beneficiado WHERE cpf = ?");
+			stmt = (PreparedStatement) conn.prepareStatement("DELETE FROM Beneficiado WHERE idBeneficiado = ? OR cpf = ?");
+			stmt.setLong(++index, ben.getIdBeneficiado());
 			stmt.setString(++index, ben.getCpf());
 			stmt.executeUpdate();			
 		} catch (SQLException e) {
@@ -101,20 +106,20 @@ public class BeneficiadoDao {
 		}
 	}
 	
-	public Vector<Beneficiado> buscarTodos() {  
+	public Beneficiado buscarUm(int ID) {  
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
-		Vector<Beneficiado> resultados = new Vector<Beneficiado>();  
+		Beneficiado temp = new Beneficiado();  
 		ResultSet rs;  
 		try {  
 			conn = dao.getConnection();
-			stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM Beneficiado");
+			stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM Beneficiado WHERE idBeneficiado = ?");
+			int index = 0;
+			stmt.setInt(++index, ID);
 			rs = stmt.executeQuery();  
 			while (rs.next()) {  
-				Beneficiado temp = new Beneficiado();  
-				temp.setRg(rs.getString("rg"));  
-				temp.setIdBeneficiado(Integer.parseInt(rs.getString("idBeneficiado")));
+				temp.setIdBeneficiado(rs.getInt("idBeneficiado"));
 				temp.setNome(rs.getString("nome"));
 				temp.setApelido(rs.getString("apelido"));
 				temp.setGenero(TipoSexo.valueOf(rs.getString("genero")));
@@ -122,6 +127,68 @@ public class BeneficiadoDao {
 				temp.setRg(rs.getString("rg"));
 				temp.setCpf(rs.getString("cpf"));
 				temp.setProfissao(rs.getString("profissao"));
+				
+				PreparedStatement stmtende = (PreparedStatement) conn.prepareStatement("SELECT * FROM Endereco WHERE Beneficiado_idBeneficiado = ?");
+				stmtende.setLong(1, temp.getIdBeneficiado());
+				ResultSet rsende = stmtende.executeQuery();
+				while(rsende.next()) {
+					Endereco endereco = new Endereco(rsende.getString("endereco"),rsende.getInt("numero"),rsende.getString("bairro"));
+					temp.setEndereco(endereco);
+				}
+				
+				PreparedStatement stmtcontato = (PreparedStatement) conn.prepareStatement("SELECT * FROM Contato WHERE Beneficiado_idBeneficiado = ?");
+				stmtcontato.setLong(1, temp.getIdBeneficiado());
+				ResultSet rscontato = stmtcontato.executeQuery();
+				while(rscontato.next()) {
+					Contato conta = new Contato(rscontato.getString("telefone"), rscontato.getString("celular"), rscontato.getString("email"));
+					temp.setContato(conta);
+				  
+				}	
+			} 
+		} catch (SQLException e) {  
+			e.printStackTrace();  
+			return null;  
+		}
+		return temp;
+	}
+	
+	public List<Beneficiado> buscarTodos() {  
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		List<Beneficiado> resultados = new ArrayList<Beneficiado>();  
+		ResultSet rs;  
+		try {  
+			conn = dao.getConnection();
+			stmt = (PreparedStatement) conn.prepareStatement("SELECT * FROM Beneficiado");
+			rs = stmt.executeQuery();  
+			while (rs.next()) {  
+				Beneficiado temp = new Beneficiado();  
+				temp.setIdBeneficiado(rs.getInt("idBeneficiado"));
+				temp.setNome(rs.getString("nome"));
+				temp.setApelido(rs.getString("apelido"));
+				temp.setGenero(TipoSexo.valueOf(rs.getString("genero")));
+				temp.setConjugue(rs.getString("conjugue"));
+				temp.setRg(rs.getString("rg"));
+				temp.setCpf(rs.getString("cpf"));
+				temp.setProfissao(rs.getString("profissao"));
+				
+				PreparedStatement stmtende = (PreparedStatement) conn.prepareStatement("SELECT * FROM Endereco WHERE Beneficiado_idBeneficiado = ?");
+				stmtende.setLong(1, temp.getIdBeneficiado());
+				ResultSet rsende = stmtende.executeQuery();
+				while(rsende.next()) {
+					Endereco endereco = new Endereco(rsende.getString("endereco"),rsende.getInt("numero"),rsende.getString("bairro"));
+					temp.setEndereco(endereco);
+				}
+				
+				PreparedStatement stmtcontato = (PreparedStatement) conn.prepareStatement("SELECT * FROM Contato WHERE Beneficiado_idBeneficiado = ?");
+				stmtcontato.setLong(1, temp.getIdBeneficiado());
+				ResultSet rscontato = stmtcontato.executeQuery();
+				while(rscontato.next()) {
+					Contato conta = new Contato(rscontato.getString("telefone"), rscontato.getString("celular"), rscontato.getString("email"));
+					temp.setContato(conta);
+				}
+				
 				resultados.add(temp);  
 			} 
 		} catch (SQLException e) {  
